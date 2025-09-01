@@ -1,6 +1,6 @@
 
 # CF training setup 
-
+![](diagram.png)
 ### Warning!
 
 Cloudflare restrict the creation of partial domains to 
