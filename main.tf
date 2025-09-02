@@ -54,7 +54,9 @@ resource "aws_security_group" "http_access" {
 
 module "webserver" {
   source            = "./webserver"
-  key_name          = "aws"
+  key_name          = var.key_name
+  webserver_name    = var.webserver_name
+  webserver_domain  = var.domain1name
   vpc_id            = aws_vpc.my_vpc.id
   subnet_id         = aws_subnet.my_subnet.id
   security_group_id = aws_security_group.http_access.id
