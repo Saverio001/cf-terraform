@@ -57,15 +57,17 @@ If you are using bash, add this line to your .bashrc
 
 You should be good to go.
 
-## 2. (if you don't already have it) Create an AWS access key
+## 2. (if you don't already have it) Create an AWS access key, and an ssh key
 
-Once you have done it, put it into your ~/.aws/credentials file:
+Once you have created the credential, put it into your `~/.aws/credentials` file:
 
     [default]
     aws_access_key_id =  <access key ID>
     aws_secret_access_key =  <secret access key>
 
 ## 3. Buy two cheap domains on R53. The cheaper, the better
+
+The `.link` domain is just 5 dollars!
 
 ## 4. In the AWS console, create a SSH key connect to your instance.
 
@@ -79,8 +81,77 @@ Make sure you note down the key name, you will need it later.
     webserver_name        = "<your webserver name>"
     cloudflare_account_id = "<your account ID>"
 
-## 5. Run terraform plan, then terraform apply
+## 5. Deploy with terraform
+
+From the console, run
+
+- terraform init
+- terraform plan
+
+Check that everything looks ok; if it does:
+
+- terraform apply
+
+This will display the name and address of your new endpoint, like this:
+
+        Outputs:
+
+        cloudflare_dns_domain1 = tolist([
+        "gene.ns.cloudflare.com",
+        "yahir.ns.cloudflare.com",
+        ])
+        webserver_ip = "63.176.208.52"
+        webserver_url = "http://www.test.net17.link"
+
+
+
+Wait a bit, then try and connect (http only). 
+
+You should be able to verify that your host is
+now on CloudFlare by using
+
+    dig <your host> -t a
+
+You should see your content being served by a number
+of CF caches
+
+        dig www.test.net17.link -t a
+
+        ; <<>> DiG 9.18.30-0ubuntu0.24.04.2-Ubuntu <<>> www.test.net17.link -t a
+        ;; global options: +cmd
+        ;; Got answer:
+        ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26231
+        ;; flags: qr rd ra; QUERY: 1, ANSWER: 7, AUTHORITY: 0, ADDITIONAL: 1
+
+        ;; OPT PSEUDOSECTION:
+        ; EDNS: version: 0, flags:; udp: 65494
+        ;; QUESTION SECTION:
+        ;www.test.net17.link.		IN	A
+
+        ;; ANSWER SECTION:
+        www.test.net17.link.	254	IN	A	104.21.32.1
+        www.test.net17.link.	254	IN	A	104.21.112.1
+        www.test.net17.link.	254	IN	A	104.21.64.1
+        www.test.net17.link.	254	IN	A	104.21.80.1
+        www.test.net17.link.	254	IN	A	104.21.48.1
+        www.test.net17.link.	254	IN	A	104.21.16.1
+        www.test.net17.link.	254	IN	A	104.21.96.1
+
+        ;; Query time: 0 msec
+        ;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+        ;; WHEN: Tue Sep 02 13:08:29 CEST 2025
+        ;; MSG SIZE  rcvd: 160
+
+
+
 
 ## 6 Connect to the webserver
 
-Terraform will display the url of the webserver; wait a bit, then try and connect (http only) 
+You should be able to use the ssh key you specified
+in step 4, with username `ubuntu`.
+
+## To do:
+
+- The free plan does not allow partial onboarding of customer zones; still, everything is already set up,
+  once the account is upgraded this can easily be done on the cloudflare console.
+- HTTPS: will need to investigate how certs work with Cloudflare (as they will be answering for this domain)
