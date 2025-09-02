@@ -103,7 +103,13 @@ This will display the name and address of your new endpoint, like this:
         webserver_ip = "63.176.208.52"
         webserver_url = "http://www.test.net17.link"
 
+Note down the dns servers for domain1 in the terraform outputs. You will need them for the next step.
 
+## 6 
+
+On the Route53 console, go to `Registered Domains` and select your first domain.
+Then, use the "Actions" menu and select "Edit Name Servers".  
+Change the name servers to the Cloudflare ones you noted down in step 5, from the Terraform output.
 
 Wait a bit, then try and connect (http only). 
 
@@ -142,10 +148,7 @@ of CF caches
         ;; WHEN: Tue Sep 02 13:08:29 CEST 2025
         ;; MSG SIZE  rcvd: 160
 
-
-
-
-## 6 Connect to the webserver
+## 7 Connect to the webserver
 
 You should be able to use the ssh key you specified
 in step 4, with username `ubuntu`.
