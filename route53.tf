@@ -27,7 +27,7 @@ data "aws_route53_zone" "domain2zone" {
 
 resource "aws_route53_record" "a_webserver_domain2" {
   zone_id = data.aws_route53_zone.domain2zone.zone_id
-  name    = join(".",["internal",var.webserver_name])
+  name    = join(".", ["internal", var.webserver_name])
   type    = "A"
   ttl     = 300
   records = [module.webserver.webserver_ip]
@@ -38,5 +38,5 @@ resource "aws_route53_record" "cname_webserver_domain2" {
   name    = var.webserver_name
   type    = "CNAME"
   ttl     = 300
-  records = [ join(".", [aws_route53_record.a_webserver_domain2.name, var.domain2name, "cdn.cloudflare.net"])]
+  records = [join(".", [aws_route53_record.a_webserver_domain2.name, var.domain2name, "cdn.cloudflare.net"])]
 }

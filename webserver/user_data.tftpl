@@ -3,9 +3,10 @@
 apt update
 apt upgrade
 apt install -y nginx
-apt install certbot python3-certbot-nginxcertbot --nginx -d example.com -d www.example.com
 
-# certbot --nginx -d $(var.website_name).$(var.website_domain) 
-cd /var/www/html && curl -L https://github.com/Saverio001/jo-condor/releases/download/0.5/public.tgz | tar zxvf -
+apt install certbot python3-certbot-nginxcertbot --nginx -d $(var.website_domain) -d $(var.website_name).$(var.website_domain)
+
+certbot --nginx -d $(var.website_name).$(var.website_domain) 
+cd /var/www/html && curl -L https://github.com/Saverio001/jo-condor/releases/download/0.6/public.tgz | tar zxvf -
 systemctl start nginx
 systemctl enable nginx

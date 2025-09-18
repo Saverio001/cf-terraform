@@ -8,6 +8,6 @@ output "webserver_url" {
 }
 
 output "cloudflare_dns_domain1" {
-  value = cloudflare_zone.domain1_zone.name_servers
+  value       = cloudflare_zone.domain1_zone.name_servers
   description = "The two CF nameservers for domain1"
 }

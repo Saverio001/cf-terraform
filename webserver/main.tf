@@ -13,13 +13,13 @@ data "aws_ami" "ubuntu" {
 
 
 resource "aws_instance" "webserver" {
-  ami                         = data.aws_ami.ubuntu.image_id
-  instance_type               = "t3.nano"
-  key_name                    = var.key_name
-  user_data                   = templatefile("${path.module}/user_data.tftpl",
-  { webserver_name=var.webserver_name,
-    webserver_domain=var.webserver_domain
-  }
+  ami           = data.aws_ami.ubuntu.image_id
+  instance_type = "t3.nano"
+  key_name      = var.key_name
+  user_data = templatefile("${path.module}/user_data.tftpl",
+    { webserver_name   = var.webserver_name,
+      webserver_domain = var.webserver_domain
+    }
   )
   associate_public_ip_address = "true"
   subnet_id                   = var.subnet_id

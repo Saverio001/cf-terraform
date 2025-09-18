@@ -15,3 +15,11 @@ resource "cloudflare_dns_record" "webserver_origin1" {
   proxied = true
 
 }
+
+#resource "cloudflare_zone" "domain2_zone" {
+#  account = {
+#    id = var.cloudflare_account_id
+#  }
+#  name = var.domain2name
+#  type = "partial"
+#}
